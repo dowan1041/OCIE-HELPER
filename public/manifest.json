@@ -1,0 +1,21 @@
+{
+  "name": "OCIE Helper - 101st ESB HHC",
+  "short_name": "OCIE Helper",
+  "description": "Equipment search system for 101st ESB HHC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
