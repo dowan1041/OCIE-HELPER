@@ -4,14 +4,23 @@ import { getStorage } from "firebase-admin/storage";
 
 let app: App;
 
+// Format private key - handle both escaped \n and actual newlines
+const formatPrivateKey = (key: string | undefined): string => {
+  if (!key) return "";
+  // Replace literal \n with actual newlines
+  return key.replace(/\\n/g, "\n").replace(/\\\\n/g, "\n");
+};
+
 if (getApps().length === 0) {
   // Check if we have service account credentials
   if (process.env.FIREBASE_PRIVATE_KEY) {
+    const privateKey = formatPrivateKey(process.env.FIREBASE_PRIVATE_KEY);
+
     app = initializeApp({
       credential: cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+        privateKey,
       }),
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     });
