@@ -6,11 +6,25 @@ let app: App | null = null;
 let db: Firestore | null = null;
 let storage: Storage | null = null;
 
-// Format private key - handle various formats from different environments
-const formatPrivateKey = (key: string | undefined): string => {
-  if (!key) return "";
+// Get private key - supports both base64 encoded and raw formats
+const getPrivateKey = (): string => {
+  // Prefer base64 encoded key (most reliable for Vercel)
+  const base64Key = process.env.FIREBASE_PRIVATE_KEY_BASE64;
+  if (base64Key) {
+    try {
+      const decoded = Buffer.from(base64Key, "base64").toString("utf-8");
+      console.log("Using base64 decoded private key");
+      return decoded;
+    } catch (e) {
+      console.error("Failed to decode base64 key:", e);
+    }
+  }
 
-  let formattedKey = key;
+  // Fallback to raw private key
+  const rawKey = process.env.FIREBASE_PRIVATE_KEY;
+  if (!rawKey) return "";
+
+  let formattedKey = rawKey;
 
   // Remove surrounding quotes if present
   if (formattedKey.startsWith('"') && formattedKey.endsWith('"')) {
@@ -21,15 +35,8 @@ const formatPrivateKey = (key: string | undefined): string => {
   }
 
   // Handle different newline escape formats
-  // Replace \\n (double escaped) first
   formattedKey = formattedKey.replace(/\\\\n/g, "\n");
-  // Then replace \n (single escaped)
   formattedKey = formattedKey.replace(/\\n/g, "\n");
-
-  // Log first 50 chars for debugging (safe - doesn't expose full key)
-  console.log("Private key starts with:", formattedKey.substring(0, 50));
-  console.log("Private key contains BEGIN:", formattedKey.includes("-----BEGIN"));
-  console.log("Private key contains actual newlines:", formattedKey.includes("\n"));
 
   return formattedKey;
 };
@@ -43,7 +50,7 @@ const getApp = (): App => {
     return app;
   }
 
-  const privateKey = formatPrivateKey(process.env.FIREBASE_PRIVATE_KEY);
+  const privateKey = getPrivateKey();
 
   if (privateKey && process.env.FIREBASE_CLIENT_EMAIL) {
     app = initializeApp({
