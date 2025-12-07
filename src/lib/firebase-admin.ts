@@ -20,8 +20,16 @@ const formatPrivateKey = (key: string | undefined): string => {
     formattedKey = formattedKey.slice(1, -1);
   }
 
-  // Replace escaped newlines with actual newlines
+  // Handle different newline escape formats
+  // Replace \\n (double escaped) first
+  formattedKey = formattedKey.replace(/\\\\n/g, "\n");
+  // Then replace \n (single escaped)
   formattedKey = formattedKey.replace(/\\n/g, "\n");
+
+  // Log first 50 chars for debugging (safe - doesn't expose full key)
+  console.log("Private key starts with:", formattedKey.substring(0, 50));
+  console.log("Private key contains BEGIN:", formattedKey.includes("-----BEGIN"));
+  console.log("Private key contains actual newlines:", formattedKey.includes("\n"));
 
   return formattedKey;
 };
