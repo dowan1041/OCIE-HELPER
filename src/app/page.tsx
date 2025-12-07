@@ -127,6 +127,7 @@ export default function Home() {
 
   const handleBack = () => {
     if (previousViewMode === "list") {
+      setQuery("");
       setViewMode("list");
     } else {
       handleClear();
