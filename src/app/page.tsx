@@ -289,7 +289,7 @@ export default function Home() {
 
         {/* Google-style landing page */}
         {!isLoading && viewMode === "home" && (
-          <div className="flex flex-col items-center w-full max-w-2xl">
+          <div className="flex flex-col items-center w-full max-w-3xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-6 md:mb-8">
               <span className="text-[#5e5d3c]">O</span>
               <span className="text-[#8b7355]">C</span>
@@ -376,7 +376,7 @@ export default function Home() {
 
         {/* Search Results */}
         {!isLoading && viewMode === "search" && (
-          <div className="max-w-4xl w-full">
+          <div className="max-w-6xl w-full mx-auto">
             <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-4 md:mb-6">
               <button
                 onClick={handleBack}
@@ -475,7 +475,7 @@ export default function Home() {
 
         {/* List View */}
         {!isLoading && viewMode === "list" && (
-          <div className="w-full max-w-5xl mx-auto">
+          <div className="w-full max-w-6xl mx-auto">
             <div className="flex items-center justify-between mb-4 md:mb-6">
               <h2 className="text-xl md:text-2xl font-bold text-gray-800">All Gear List</h2>
               <span className="text-xs md:text-sm text-gray-500">
