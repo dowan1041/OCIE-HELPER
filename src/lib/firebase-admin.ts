@@ -4,11 +4,20 @@ import { getStorage } from "firebase-admin/storage";
 
 let app: App;
 
-// Format private key - handle both escaped \n and actual newlines
+// Format private key - handle various formats from different environments
 const formatPrivateKey = (key: string | undefined): string => {
   if (!key) return "";
-  // Replace literal \n with actual newlines
-  return key.replace(/\\n/g, "\n").replace(/\\\\n/g, "\n");
+
+  // Remove surrounding quotes if present
+  let formattedKey = key;
+  if (formattedKey.startsWith('"') && formattedKey.endsWith('"')) {
+    formattedKey = formattedKey.slice(1, -1);
+  }
+
+  // Replace escaped newlines with actual newlines
+  formattedKey = formattedKey.replace(/\\n/g, "\n");
+
+  return formattedKey;
 };
 
 if (getApps().length === 0) {
