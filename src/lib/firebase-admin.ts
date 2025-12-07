@@ -1,16 +1,22 @@
 import { initializeApp, getApps, cert, App } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
-import { getStorage } from "firebase-admin/storage";
+import { getFirestore, Firestore } from "firebase-admin/firestore";
+import { getStorage, Storage } from "firebase-admin/storage";
 
-let app: App;
+let app: App | null = null;
+let db: Firestore | null = null;
+let storage: Storage | null = null;
 
 // Format private key - handle various formats from different environments
 const formatPrivateKey = (key: string | undefined): string => {
   if (!key) return "";
 
-  // Remove surrounding quotes if present
   let formattedKey = key;
+
+  // Remove surrounding quotes if present
   if (formattedKey.startsWith('"') && formattedKey.endsWith('"')) {
+    formattedKey = formattedKey.slice(1, -1);
+  }
+  if (formattedKey.startsWith("'") && formattedKey.endsWith("'")) {
     formattedKey = formattedKey.slice(1, -1);
   }
 
@@ -20,11 +26,18 @@ const formatPrivateKey = (key: string | undefined): string => {
   return formattedKey;
 };
 
-if (getApps().length === 0) {
-  // Check if we have service account credentials
-  if (process.env.FIREBASE_PRIVATE_KEY) {
-    const privateKey = formatPrivateKey(process.env.FIREBASE_PRIVATE_KEY);
+// Lazy initialization - only initialize when needed
+const getApp = (): App => {
+  if (app) return app;
 
+  if (getApps().length > 0) {
+    app = getApps()[0];
+    return app;
+  }
+
+  const privateKey = formatPrivateKey(process.env.FIREBASE_PRIVATE_KEY);
+
+  if (privateKey && process.env.FIREBASE_CLIENT_EMAIL) {
     app = initializeApp({
       credential: cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
@@ -34,16 +47,39 @@ if (getApps().length === 0) {
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
     });
   } else {
-    // Fallback: Initialize without credentials (for client-side or when not needed)
+    // Fallback without credentials
     app = initializeApp({
       projectId: process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
       storageBucket: process.env.FIREBASE_STORAGE_BUCKET || process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     });
   }
-} else {
-  app = getApps()[0];
-}
 
-export const adminDb = getFirestore();
-export const adminStorage = getStorage();
-export default app;
+  return app;
+};
+
+export const getAdminDb = (): Firestore => {
+  if (!db) {
+    getApp();
+    db = getFirestore();
+  }
+  return db;
+};
+
+export const getAdminStorage = (): Storage => {
+  if (!storage) {
+    getApp();
+    storage = getStorage();
+  }
+  return storage;
+};
+
+// For backward compatibility
+export const adminDb = {
+  collection: (name: string) => getAdminDb().collection(name),
+};
+
+export const adminStorage = {
+  bucket: () => getAdminStorage().bucket(),
+};
+
+export default getApp;
