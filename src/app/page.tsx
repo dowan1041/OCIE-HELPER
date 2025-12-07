@@ -409,14 +409,20 @@ export default function Home() {
                 <p className="text-gray-400 mt-2 text-sm md:text-base">Try searching with different keywords.</p>
               </div>
             ) : (
-              <div className="grid gap-4 md:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+              <div className={`grid gap-4 md:gap-6 ${
+                searchResults.length === 1
+                  ? "grid-cols-1 max-w-md mx-auto"
+                  : searchResults.length === 2
+                    ? "grid-cols-1 sm:grid-cols-2 max-w-2xl mx-auto"
+                    : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+              }`}>
                 {searchResults.map((item, index) => (
                   <div
                     key={index}
-                    className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+                    className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow bg-white"
                   >
                     {/* Image */}
-                    <div className="relative h-48 bg-gray-100">
+                    <div className={`relative bg-gray-100 ${searchResults.length === 1 ? "h-64" : "h-48"}`}>
                       {item.image ? (
                         <Image
                           src={item.image.startsWith("http") ? item.image : `/images/${item.image}`}
