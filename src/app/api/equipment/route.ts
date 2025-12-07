@@ -5,6 +5,13 @@ const COLLECTION_NAME = "equipment";
 
 export async function GET() {
   try {
+    // Debug: Check environment variables
+    const hasPrivateKey = !!process.env.FIREBASE_PRIVATE_KEY;
+    const hasClientEmail = !!process.env.FIREBASE_CLIENT_EMAIL;
+    const hasProjectId = !!process.env.FIREBASE_PROJECT_ID;
+
+    console.log("Firebase config check:", { hasPrivateKey, hasClientEmail, hasProjectId });
+
     const snapshot = await adminDb.collection(COLLECTION_NAME).get();
     const equipment = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -13,7 +20,8 @@ export async function GET() {
     return NextResponse.json(equipment);
   } catch (error) {
     console.error("Failed to fetch equipment:", error);
-    return NextResponse.json({ error: "Failed to read data" }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    return NextResponse.json({ error: "Failed to read data", details: errorMessage }, { status: 500 });
   }
 }
 
