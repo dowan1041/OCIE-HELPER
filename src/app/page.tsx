@@ -564,7 +564,7 @@ export default function Home() {
       </main>
 
       {/* Buy Me a Coffee - Fixed Position */}
-      <div className="fixed bottom-36 md:bottom-40 right-4 md:right-6 z-40">
+      <div className="fixed bottom-16 md:bottom-20 right-4 md:right-6 z-40">
         <div className="flex flex-col items-end gap-2">
           <p className="text-xs md:text-sm text-gray-500 bg-white/90 px-2 py-1 rounded shadow-sm">
             Do you want to support me?
