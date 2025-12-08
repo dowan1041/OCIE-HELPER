@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SiteGate } from "@/components/SiteGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "OCIE Helper - 101st ESB HHC",
-  description: "Equipment search system for 101st ESB HHC",
+  title: "OCIE Helper",
+  description: "Equipment search system",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -41,7 +42,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SiteGate>{children}</SiteGate>
       </body>
     </html>
   );

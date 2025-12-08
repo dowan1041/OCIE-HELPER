@@ -298,7 +298,7 @@ export default function Home() {
               <span className="text-[#4a5d3c]">E</span>
               <span className="text-[#3d3c29]"> HELPER</span>
             </h1>
-            <p className="text-gray-600 text-base md:text-lg mb-4 md:mb-6">FOR 101ST ESB HHC</p>
+            <p className="text-gray-600 text-base md:text-lg mb-4 md:mb-6">Equipment Search System</p>
             <form onSubmit={handleSearch} className="w-full">
               <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-1 flex items-center border border-gray-300 rounded-full px-4 py-3 hover:shadow-md focus-within:shadow-md">
@@ -585,31 +585,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-gray-200 py-4 md:py-6 text-center text-xs md:text-sm text-gray-500 px-4">
-        <div className="flex flex-col items-center gap-2">
-          <p className="font-medium text-gray-600">Created by SPC KIM, DOWAN</p>
-          <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
-            <a
-              href="mailto:DOWAN1041@GMAIL.COM"
-              className="flex items-center gap-1 hover:text-blue-500 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              DOWAN1041@GMAIL.COM
-            </a>
-            <span className="hidden sm:inline text-gray-300">|</span>
-            <a
-              href="mailto:DOWAN.KIM3.MIL@ARMY.MIL"
-              className="flex items-center gap-1 hover:text-green-600 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              DOWAN.KIM3.MIL@ARMY.MIL
-            </a>
-          </div>
-          <p className="text-gray-400 mt-1">&copy; {new Date().getFullYear()} OCIE Helper. All rights reserved.</p>
-        </div>
+        <p className="text-gray-400">&copy; {new Date().getFullYear()} OCIE Helper</p>
       </footer>
 
       {/* Add Item Modal */}

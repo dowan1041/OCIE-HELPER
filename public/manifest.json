@@ -1,7 +1,7 @@
 {
-  "name": "OCIE Helper - 101st ESB HHC",
+  "name": "OCIE Helper",
   "short_name": "OCIE Helper",
-  "description": "Equipment search system for 101st ESB HHC",
+  "description": "Equipment search system",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
